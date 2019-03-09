@@ -13,7 +13,7 @@ import java.awt.*;
 public class SelectionWindow extends JFrame {
     private final static String FORM_SUBTITLE =
             "Ces visages sont-ils dans la classe ?";
-    JPanel contentPane = new JPanel();
+    private SelectButton[] selectButtons;
 
     public SelectionWindow() {
         // Set the form behavior information
@@ -22,6 +22,7 @@ public class SelectionWindow extends JFrame {
         this.setTitle("L'informatique décisionnelle: des exemples.");
 
         // Create and set the content pane
+        JPanel contentPane = new JPanel();
         contentPane.setLayout(new BorderLayout());
         this.setContentPane(contentPane);
 
@@ -46,11 +47,15 @@ public class SelectionWindow extends JFrame {
         JPanel containerPane = new JPanel();
         containerPane.setLayout(new WrapLayout());
 
-        for (int i = 0; i < 31; ++i) {
-            JButton button = new SelectButton("button " + i);
+        final int count = 31;
+        this.selectButtons = new SelectButton[count];
+
+        for (int i = 0; i < count; ++i) {
+            SelectButton button = new SelectButton<>("hi", null);
             button.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
             button.setPreferredSize(new Dimension(100, 100));
             containerPane.add(button);
+            this.selectButtons[i] = button;
         }
 
         return containerPane;

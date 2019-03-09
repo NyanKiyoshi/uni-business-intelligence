@@ -6,18 +6,18 @@ import javax.swing.border.SoftBevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class SelectButton extends JButton {
+public class SelectButton<T> extends JButton {
     private boolean isActive = false;
     private Color activeColor = new Color(0x6b, 0xea, 0x6e);
     private Color inactiveColor = Color.PINK;
 
-    public SelectButton(String text) {
-        super(text);
-        this.updateStyle();
-    }
+    public final T item;
 
-    public SelectButton() {
-        this("");
+    public SelectButton(T item, ImageIcon imageIcon) {
+        this.item = item;
+
+        this.updateStyle();
+        this.setIcon(imageIcon);
     }
 
     private void updateStyle() {
