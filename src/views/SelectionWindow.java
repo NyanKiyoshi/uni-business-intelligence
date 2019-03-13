@@ -1,21 +1,32 @@
 package views;
 
+import controllers.CatGenerator;
 import controllers.WrapLayout;
 import views.listeners.CloseButton;
 import views.listeners.SelectButton;
 import views.listeners.ShowTreeButton;
+import weka.core.Instance;
+import weka.core.Instances;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 import java.awt.*;
 
+import static controllers.CatGenerator.fvWekaAttributes;
+
 public class SelectionWindow extends JFrame {
     private final static String FORM_SUBTITLE =
             "Ces visages sont-ils dans la classe ?";
+
+    private Instances instances;
+
     private SelectButton[] selectButtons;
 
     public SelectionWindow() {
+
+        this.instances = new Instances("Rel", fvWekaAttributes, 30);
+
         // Set the form behavior information
         this.setSize(800, 630);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -51,7 +62,7 @@ public class SelectionWindow extends JFrame {
         this.selectButtons = new SelectButton[count];
 
         for (int i = 0; i < count; ++i) {
-            SelectButton button = new SelectButton<>("hi", null);
+            SelectButton button = new SelectButton<>(CatGenerator.generateInstance(), null);
             button.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
             button.setPreferredSize(new Dimension(100, 100));
             containerPane.add(button);
@@ -78,6 +89,10 @@ public class SelectionWindow extends JFrame {
         containerPane.add(new CloseButton(this, "Fermer"));
 
         return containerPane;
+    }
+
+    public SelectButton<Instance>[] getSelectButtons() {
+        return this.selectButtons;
     }
 
     public static void main(String[] args) {

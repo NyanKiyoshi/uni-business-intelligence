@@ -7,11 +7,12 @@ import weka.gui.treevisualizer.PlaceNode2;
 import weka.gui.treevisualizer.TreeVisualizer;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import static controllers.CatGenerator.fvWekaAttributes;
 
 public class WekaDummyTree {
-    public static void main(String[] args) throws Exception {
+    public static void main(Instances isTrainingSet) throws Exception {
         J48 tree = new J48();
         String[] options = {
             // confidence Factor
@@ -21,16 +22,8 @@ public class WekaDummyTree {
             "-M", "1"
         };
 
-        // Create an empty training set
-        Instances isTrainingSet = new Instances("Rel", fvWekaAttributes, 10);
-
         // Set class index
-        isTrainingSet.setClassIndex(isTrainingSet.numAttributes() - 1);
-
-        // Create and add instances
-        for (int i = 0; i < 15; i++) {
-            isTrainingSet.add(CatGenerator.generateInstance());
-        }
+        isTrainingSet.setClassIndex(isTrainingSet.numAttributes()-1);
 
         // Set class index
         isTrainingSet.setClassIndex(isTrainingSet.numAttributes() - 1);
