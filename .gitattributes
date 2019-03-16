@@ -1,0 +1,7 @@
+# force given EOL
+.* text=auto eol=lf
+*.psd text=auto eol=crlf
+
+# generated files
+*.svg linguist-generated
+
