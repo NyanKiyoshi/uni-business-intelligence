@@ -7,10 +7,18 @@ import weka.core.*;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Generates weka datasets for Cat instances.
+ */
 public class CatGenerator {
     public static final int ATTRIBUTE_COUNT = Cat.Values.length;
     public static final FastVector<Attribute> fvWekaAttributes = createWekaAttributes();
 
+    /**
+     * Creates a weka attribute from given values.
+     * @param values the values of the attribute.
+     * @return the generated weka attribute.
+     */
     private static Attribute createAttributeFromValues(String[] values) {
         FastVector<String> fvVals = new FastVector<>(values.length - 1);
 
@@ -21,6 +29,10 @@ public class CatGenerator {
         return new Attribute(values[0], fvVals);
     }
 
+    /**
+     * Creates a fast vector relation between attributes and values.
+     * @return the generated attributes-values relation.
+     */
     private static FastVector<Attribute> createWekaAttributes() {
         FastVector<Attribute> fvWekaAttributes = new FastVector<>(ATTRIBUTE_COUNT);
 
@@ -32,6 +44,10 @@ public class CatGenerator {
         return fvWekaAttributes;
     }
 
+    /**
+     * Generates an instance with random values.
+     * @return the hash of the instance and the generated instance.
+     */
     private static Pair<Integer, Instance> generateInstance() {
         Instance instance = new DenseInstance(ATTRIBUTE_COUNT);
 
@@ -54,6 +70,12 @@ public class CatGenerator {
         return new Pair<>(instanceHash, instance);
     }
 
+    /**
+     * Checks whether a given hash is unique or not.
+     * @param hashes the generated hashes (unique)
+     * @param newHash the new hash to compare from
+     * @return whether the new hash is unique or not (not in hashes)
+     */
     private static boolean isHashUnique(int[] hashes, int newHash) {
         for (int hash : hashes) {
             if (hash == newHash) {
@@ -63,6 +85,11 @@ public class CatGenerator {
         return true;
     }
 
+    /**
+     * Generates a given count of random cat instances.
+     * @param count the count to generate
+     * @return the generated instances
+     */
     public static Instances generatesInstances(int count) {
         Instances instances = new Instances("Rel", fvWekaAttributes, count);
         int[] instances_hashes = new int[count];

@@ -1,5 +1,9 @@
 package models;
 
+/**
+ * Represents a Cat instance with its attributes and values.
+ * It represented the following way: {K, V...}.
+ */
 public final class Cat {
     public static String[][] Values = new String[][] {
         {"Skin", "Black", "White", "Orange", "Brown"},

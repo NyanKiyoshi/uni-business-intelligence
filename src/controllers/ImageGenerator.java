@@ -13,9 +13,19 @@ import java.nio.file.NoSuchFileException;
 
 import static controllers.CatGenerator.ATTRIBUTE_COUNT;
 
+/**
+ * Generates an icon from given layers.
+ */
 public class ImageGenerator {
     private static ClassLoader classLoader = ImageGenerator.class.getClassLoader();
 
+    /**
+     * Loads a given resource.
+     *
+     * @param filename the resource's name/ path
+     * @return the loaded resource
+     * @throws NoSuchFileException if the resource is not found
+     */
     private static URL loadResource(String filename) throws NoSuchFileException {
         URL foundURL = classLoader.getResource(filename);
 
@@ -27,6 +37,14 @@ public class ImageGenerator {
         return foundURL;
     }
 
+    /**
+     * Builds an icon from given overlays and a base global size.
+     *
+     * @param dimension the icon's dimensions
+     * @param overlayNames the layers filenames (resources)
+     * @return the generated icon
+     * @throws IOException if a layer failed to load (other than not being found)
+     */
     private static ImageIcon BuildImage(Dimension dimension, String[] overlayNames) throws IOException {
         BufferedImage baseImage = new BufferedImage(
             dimension.width, dimension.height, BufferedImage.TYPE_INT_ARGB);
@@ -51,6 +69,14 @@ public class ImageGenerator {
         return resultIcon;
     }
 
+    /**
+     * Builds an icon from a given weka instance.
+     *
+     * @param dimension the dimensions of the icon
+     * @param instance the instance to generate the icon from
+     * @return the generated icon
+     * @throws IOException if a layer failed to load (other than not found)
+     */
     public static ImageIcon BuildInstanceImage(Dimension dimension, Instance instance) throws IOException {
         assert instance.numAttributes() == ATTRIBUTE_COUNT;
 
