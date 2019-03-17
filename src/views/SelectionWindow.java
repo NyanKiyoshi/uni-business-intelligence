@@ -1,6 +1,5 @@
 package views;
 
-import controllers.CatGenerator;
 import controllers.WrapLayout;
 import views.listeners.CloseButton;
 import views.listeners.SelectButton;
@@ -12,21 +11,18 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 import java.awt.*;
+import java.util.Enumeration;
 
-import static controllers.CatGenerator.fvWekaAttributes;
+import static controllers.CatGenerator.generatesInstances;
 
 public class SelectionWindow extends JFrame {
     private final static String FORM_SUBTITLE =
-            "Ces visages sont-ils dans la classe ?";
+            "Ces images sont-elles dans la classe ?";
 
-    private Instances instances;
-
-    private SelectButton[] selectButtons;
+    private Instances instances = generatesInstances(30);
+    private SelectButton<Instance>[] selectButtons = new SelectButton[this.instances.numInstances()];
 
     public SelectionWindow() {
-
-        this.instances = new Instances("Rel", fvWekaAttributes, 30);
-
         // Set the form behavior information
         this.setSize(800, 630);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -58,15 +54,19 @@ public class SelectionWindow extends JFrame {
         JPanel containerPane = new JPanel();
         containerPane.setLayout(new WrapLayout());
 
-        final int count = 31;
-        this.selectButtons = new SelectButton[count];
+        Enumeration<Instance> it = this.instances.enumerateInstances();
+        int buttonPos = 0;
 
-        for (int i = 0; i < count; ++i) {
-            SelectButton button = new SelectButton<>(CatGenerator.generateInstance(), null);
+        while (it.hasMoreElements()) {
+            SelectButton<Instance> button = new SelectButton<>(it.nextElement(), null);
+
+            // Set the button properties
             button.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
             button.setPreferredSize(new Dimension(100, 100));
+
+            // Add the buttons to the containers
+            this.selectButtons[buttonPos++] = button;
             containerPane.add(button);
-            this.selectButtons[i] = button;
         }
 
         return containerPane;
