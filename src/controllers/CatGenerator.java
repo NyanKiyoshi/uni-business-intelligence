@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class CatGenerator {
-    private static final int ATTRIBUTES_COUNT = Cat.Values.length;
+    public static final int ATTRIBUTE_COUNT = Cat.Values.length;
     public static final FastVector<Attribute> fvWekaAttributes = createWekaAttributes();
 
     private static Attribute createAttributeFromValues(String[] values) {
@@ -22,9 +22,9 @@ public class CatGenerator {
     }
 
     private static FastVector<Attribute> createWekaAttributes() {
-        FastVector<Attribute> fvWekaAttributes = new FastVector<>(ATTRIBUTES_COUNT);
+        FastVector<Attribute> fvWekaAttributes = new FastVector<>(ATTRIBUTE_COUNT);
 
-        for (int i = 0; i < ATTRIBUTES_COUNT; ++i) {
+        for (int i = 0; i < ATTRIBUTE_COUNT; ++i) {
             fvWekaAttributes.add(
                 createAttributeFromValues(Cat.Values[i]));
         }
@@ -33,10 +33,10 @@ public class CatGenerator {
     }
 
     private static Pair<Integer, Instance> generateInstance() {
-        Instance instance = new DenseInstance(ATTRIBUTES_COUNT);
+        Instance instance = new DenseInstance(ATTRIBUTE_COUNT);
 
         int instanceHash = 0;
-        for (int attrPos = 0; attrPos < ATTRIBUTES_COUNT; ++attrPos) {
+        for (int attrPos = 0; attrPos < ATTRIBUTE_COUNT; ++attrPos) {
             // Retrieve the attribute values
             String[] values = Cat.Values[attrPos];
 

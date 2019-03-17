@@ -1,5 +1,6 @@
 package views;
 
+import controllers.ImageGenerator;
 import controllers.WrapLayout;
 import views.listeners.CloseButton;
 import views.listeners.SelectButton;
@@ -11,6 +12,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 import java.awt.*;
+import java.io.IOException;
 import java.util.Enumeration;
 
 import static controllers.CatGenerator.generatesInstances;
@@ -21,8 +23,9 @@ public class SelectionWindow extends JFrame {
 
     private Instances instances = generatesInstances(30);
     private SelectButton<Instance>[] selectButtons = new SelectButton[this.instances.numInstances()];
+    private static final Dimension IMAGE_DIMENSION = new Dimension(100, 100);
 
-    public SelectionWindow() {
+    public SelectionWindow() throws IOException {
         // Set the form behavior information
         this.setSize(800, 630);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -50,19 +53,22 @@ public class SelectionWindow extends JFrame {
         return formTitle;
     }
 
-    private JComponent createSelectionBoxes() {
+    private JComponent createSelectionBoxes() throws IOException {
         JPanel containerPane = new JPanel();
         containerPane.setLayout(new WrapLayout());
 
         Enumeration<Instance> it = this.instances.enumerateInstances();
         int buttonPos = 0;
+        Instance instance;
 
         while (it.hasMoreElements()) {
-            SelectButton<Instance> button = new SelectButton<>(it.nextElement(), null);
+            instance = it.nextElement();
+            SelectButton<Instance> button = new SelectButton<>(
+                instance, ImageGenerator.BuildInstanceImage(IMAGE_DIMENSION, instance));
 
             // Set the button properties
             button.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
-            button.setPreferredSize(new Dimension(100, 100));
+            button.setPreferredSize(IMAGE_DIMENSION);
 
             // Add the buttons to the containers
             this.selectButtons[buttonPos++] = button;
@@ -96,7 +102,14 @@ public class SelectionWindow extends JFrame {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new SelectionWindow();
-        frame.setVisible(true);
+        try {
+            JFrame frame = new SelectionWindow();
+            frame.setVisible(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(
+                null, e.getMessage(),
+                "Failed to load images", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
