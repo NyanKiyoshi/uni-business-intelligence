@@ -1,5 +1,7 @@
 package views.listeners;
 
+import org.jetbrains.annotations.Nullable;
+
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
@@ -13,13 +15,26 @@ public class SelectButton<T> extends JButton {
 
     public final T item;
 
-    public SelectButton(T item, ImageIcon imageIcon) {
+    /**
+     * A selectable button that is associated to a T item and an icon.
+     * @param item the object associated to the button.
+     * @param imageIcon the button's icon (nullable).
+     */
+    public SelectButton(T item, @Nullable ImageIcon imageIcon) {
         this.item = item;
 
         this.updateStyle();
         this.setIcon(imageIcon);
     }
 
+    /**
+     * Called whenever a update is being done to the button.
+     * It will create lowered borders if the button is selected,
+     * raised borders otherwise.
+     *
+     * And will set a green or red background depending
+     * if the button is selected or not.
+     */
     private void updateStyle() {
         int borderType;
         Color backgroundColor;
@@ -37,6 +52,10 @@ public class SelectButton<T> extends JButton {
         this.setBackground(backgroundColor);
     }
 
+    /**
+     * Toggles the button whenever a click is performed on it.
+     * @param event the click event.
+     */
     public void fireActionPerformed(ActionEvent event) {
         super.fireActionPerformed(event);
 
@@ -45,6 +64,10 @@ public class SelectButton<T> extends JButton {
         this.updateStyle();
     }
 
+    /**
+     * Whether the button is selected or not.
+     * @return the current state of the button.
+     */
     public boolean isActive() {
         return this.isActive;
     }
