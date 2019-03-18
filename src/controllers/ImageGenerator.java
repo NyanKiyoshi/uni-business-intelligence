@@ -88,7 +88,9 @@ public class ImageGenerator {
             attributeValue = instance.stringValue(
                 CatGenerator.fvWekaAttributes.elementAt(i));
 
-            layers[i] = attributeName + "_" + attributeValue.toLowerCase().replace(" ", "");
+            layers[i] = attributeName.toLowerCase()
+                + "_"
+                + attributeValue.toLowerCase().replace(" ", "");
         }
 
         return BuildImage(dimension, layers);

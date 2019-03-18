@@ -1,6 +1,5 @@
 package controllers;
 
-import javafx.util.Pair;
 import models.Cat;
 import weka.core.*;
 
@@ -11,6 +10,16 @@ import java.util.concurrent.ThreadLocalRandom;
  * Generates weka datasets for Cat instances.
  */
 public class CatGenerator {
+    private static final class GeneratedInstance {
+        int hash;
+        Instance instance;
+
+        GeneratedInstance(int hash, Instance instance) {
+            this.hash = hash;
+            this.instance = instance;
+        }
+    }
+
     public static final int ATTRIBUTE_COUNT = Cat.Values.length;
     public static final FastVector<Attribute> fvWekaAttributes = createWekaAttributes();
 
@@ -48,7 +57,7 @@ public class CatGenerator {
      * Generates an instance with random values.
      * @return the hash of the instance and the generated instance.
      */
-    private static Pair<Integer, Instance> generateInstance() {
+    private static GeneratedInstance generateInstance() {
         Instance instance = new DenseInstance(ATTRIBUTE_COUNT);
 
         int instanceHash = 0;
@@ -67,7 +76,7 @@ public class CatGenerator {
             instanceHash |= 1 << ((attrPos + 1) * randomValuePos);
         }
 
-        return new Pair<>(instanceHash, instance);
+        return new GeneratedInstance(instanceHash, instance);
     }
 
     /**
@@ -94,13 +103,13 @@ public class CatGenerator {
         Instances instances = new Instances("Rel", fvWekaAttributes, count);
         int[] instances_hashes = new int[count];
 
-        Pair<Integer, Instance> instance;
+        GeneratedInstance instance;
         for (int i = 0; i < count; ++i) {
             do {
                 instance = generateInstance();
-            } while (!isHashUnique(instances_hashes, instance.getKey()));
-            instances.add(instance.getValue());
-            instances_hashes[i] = instance.getKey();
+            } while (!isHashUnique(instances_hashes, instance.hash));
+            instances.add(instance.instance);
+            instances_hashes[i] = instance.hash;
         }
 
         return instances;
