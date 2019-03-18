@@ -1,0 +1,28 @@
+dist: xenial
+sudo: required
+language: java
+
+jdk:
+    - openjdk8
+
+env:
+    global:
+        - BUILD_PATH=docs
+        - RELEASE_PATH=/tmp/release/
+
+script:
+    - JAVA_HOME_OVERRIDE=$JAVA_HOME ./build-jars.sh
+
+before_deploy:
+    - export TRAVIS_TAG=$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)
+    - git tag $TRAVIS_TAG
+
+deploy:
+    - provider: releases
+      api_key: $GITHUB_TOKEN
+      file: ${RELEASE_PATH}/*.jar
+      file_glob: true
+      skip_cleanup: true
+      draft: false
+      on:
+          branch: master
