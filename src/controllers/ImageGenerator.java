@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.NoSuchFileException;
 
-import static controllers.CatGenerator.ATTRIBUTE_COUNT;
+import static controllers.CatGenerator.*;
 
 /**
  * Generates an icon from given layers.
@@ -83,14 +83,16 @@ public class ImageGenerator {
         String[] layers = new String[ATTRIBUTE_COUNT];
         String attributeName;
         String attributeValue;
-        for (int i = 0; i < ATTRIBUTE_COUNT; ++i) {
-            attributeName = Cat.Values[i][0];
-            attributeValue = instance.stringValue(
-                CatGenerator.fvWekaAttributes.elementAt(i));
+        int layerCur = 0;
 
-            layers[i] = attributeName.toLowerCase()
-                + "_"
-                + attributeValue.toLowerCase().replace(" ", "");
+        for (int i = 0; i < instance.numValues(); ++i) {
+            attributeValue = instance.stringValue(i);
+            if (!attributeValue.equals(TRUE)) {
+                continue;
+            }
+
+            attributeName = instance.attribute(i).name();
+            layers[layerCur++] = attributeName.toLowerCase().replace(" ", "");
         }
 
         return BuildImage(dimension, layers);

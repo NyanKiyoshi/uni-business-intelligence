@@ -18,11 +18,6 @@ public class WekaTree {
     public static void showTreeFromInstances(Instances isTrainingSet) throws Exception {
         J48 tree = new J48();
         String[] options = {
-            // confidence Factor
-            "-C", "0.9",
-
-            // min num of objects
-            "-M", "1"
         };
 
         // Set class index
