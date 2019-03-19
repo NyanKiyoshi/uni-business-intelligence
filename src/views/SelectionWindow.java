@@ -132,6 +132,14 @@ public class SelectionWindow extends JFrame {
     }
 
     /**
+     * A getter of the instance's selection button boxes.
+     * @return The instance's selection buttons.
+     */
+    public Instances getInstances() {
+        return this.instances;
+    }
+
+    /**
      * The entry point of the selection window,
      * it creates a new window and shows it.
      *
@@ -143,6 +151,7 @@ public class SelectionWindow extends JFrame {
     public static void main(String[] args) {
         try {
             JFrame frame = new SelectionWindow();
+            frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         } catch (IOException e) {
             e.printStackTrace();
