@@ -1,10 +1,12 @@
 package views;
 
+import weka.classifiers.Evaluation;
 import weka.classifiers.trees.J48;
 import weka.core.*;
 import weka.gui.treevisualizer.PlaceNode2;
 import weka.gui.treevisualizer.TreeVisualizer;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class WekaTree {
@@ -31,18 +33,17 @@ public class WekaTree {
         // Set class index
         isTrainingSet.setClassIndex(isTrainingSet.numAttributes() - 1);
 
-        // Train classifier
-        tree.buildClassifier(isTrainingSet);
-
         // Set the J48 options
         tree.setOptions(options);
+
+        // Train classifier
+        tree.buildClassifier(isTrainingSet);
 
         // display classifier
         final javax.swing.JFrame jf =
             new javax.swing.JFrame("Weka Classifier Tree Visualizer: J48");
 
         // Set the behaviors
-        jf.setSize(500,400);
         jf.getContentPane().setLayout(new BorderLayout());
 
         // Create the tree view visualizer component

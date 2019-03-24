@@ -10,6 +10,10 @@ import java.util.concurrent.ThreadLocalRandom;
  * Generates weka datasets for Cat instances.
  */
 public class CatGenerator {
+
+    public static final String TRUE = "True";
+    public static final String FALSE = "False";
+
     private static final class GeneratedInstance {
         int hash;
         Instance instance;
@@ -50,6 +54,9 @@ public class CatGenerator {
                 createAttributeFromValues(Cat.Values[i]));
         }
 
+        fvWekaAttributes.add(new Attribute(
+            "Is Selected", Arrays.asList(TRUE, FALSE)));
+
         return fvWekaAttributes;
     }
 
@@ -58,7 +65,7 @@ public class CatGenerator {
      * @return the hash of the instance and the generated instance.
      */
     private static GeneratedInstance generateInstance() {
-        Instance instance = new DenseInstance(ATTRIBUTE_COUNT);
+        Instance instance = new DenseInstance(fvWekaAttributes.size());
 
         int instanceHash = 0;
         for (int attrPos = 0; attrPos < ATTRIBUTE_COUNT; ++attrPos) {
