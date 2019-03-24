@@ -4,7 +4,6 @@ import views.SelectionWindow;
 import views.WekaTree;
 import weka.core.Attribute;
 import weka.core.Instance;
-import weka.core.Instances;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -40,6 +39,7 @@ public class ShowTreeButton extends JButton {
     public void fireActionPerformed(ActionEvent event) {
         super.fireActionPerformed(event);
 
+        int selectedCount = 0;
         SelectButton<Instance>[] selectionButtons = parentView.getSelectButtons();
         Instance item;
 

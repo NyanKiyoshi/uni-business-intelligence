@@ -1,6 +1,5 @@
 package views;
 
-import weka.classifiers.Evaluation;
 import weka.classifiers.trees.J48;
 import weka.core.*;
 import weka.gui.treevisualizer.PlaceNode2;
@@ -45,6 +44,10 @@ public class WekaTree {
 
         // Set the behaviors
         jf.getContentPane().setLayout(new BorderLayout());
+
+        // Maximize the window (maximized and full-size)
+        jf.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        jf.setSize(Toolkit.getDefaultToolkit().getScreenSize());
 
         // Create the tree view visualizer component
         // and put it to the center of the frame
